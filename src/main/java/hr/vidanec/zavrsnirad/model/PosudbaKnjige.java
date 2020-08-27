@@ -59,6 +59,26 @@ public class PosudbaKnjige extends Entitet{
     public void setOsoba(Osoba osoba) {
         this.osoba = osoba;
     }
+
+    
+
+    
+
+   
+
+   
+
+   
+
+    
+
+    
+
+   
+
+  
+
+  
     
     
 }

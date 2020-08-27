@@ -5,7 +5,7 @@
  */
 package hr.vidanec.zavrsnirad;
 
-import hr.vidanec.zavrsnirad.utility.HibernateUtil;
+import hr.vidanec.zavrsnirad.utility.PocetniInsert;
 
 /**
  *
@@ -13,6 +13,6 @@ import hr.vidanec.zavrsnirad.utility.HibernateUtil;
  */
 public class Start {
     public static void main(String[] args) {
-        HibernateUtil.getSessionFactory().openSession();
+        PocetniInsert.izvedi();
     }
 }
