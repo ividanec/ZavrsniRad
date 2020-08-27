@@ -44,7 +44,7 @@
         
         
         <!-- Ovdje navodimo naše mapirane klase -->
-         <mapping class="hr.vidanec.zavrsnirad.model.Osoba" />
+         <mapping class="hr.vidanec.zavrsnirad.model.Knjiga" />
         
         
     </session-factory>
