@@ -5,7 +5,10 @@
  */
 package hr.vidanec.zavrsnirad;
 
+import hr.vidanec.zavrsnirad.controller.ObradaOsoba;
+import hr.vidanec.zavrsnirad.model.Osoba;
 import hr.vidanec.zavrsnirad.utility.PocetniInsert;
+import hr.vidanec.zavrsnirad.utility.ZavrsniRadException;
 
 /**
  *
@@ -13,6 +16,18 @@ import hr.vidanec.zavrsnirad.utility.PocetniInsert;
  */
 public class Start {
     public static void main(String[] args) {
-        PocetniInsert.izvedi();
+        //PocetniInsert.izvedi();
+        
+        Osoba o = new Osoba();
+        
+        ObradaOsoba obradaOsoba = new ObradaOsoba(o);
+        o.setIme("Ivann");
+        o.setOib("asdasdasd");
+        
+        try {
+            obradaOsoba.create();
+        } catch (ZavrsniRadException ex) {
+            System.out.println(ex.getPoruka());
+        }
     }
 }

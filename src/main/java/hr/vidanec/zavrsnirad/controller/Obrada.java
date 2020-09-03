@@ -7,6 +7,7 @@ package hr.vidanec.zavrsnirad.controller;
 
 import hr.vidanec.zavrsnirad.utility.HibernateUtil;
 import hr.vidanec.zavrsnirad.utility.ZavrsniRadException;
+import java.util.List;
 import org.hibernate.Session;
 
 /**
@@ -18,14 +19,18 @@ public abstract class Obrada<T> {
     protected T entitet;
     protected Session session;
     
+    
     protected abstract void kontrolaCreate() throws ZavrsniRadException;
     protected abstract void kontrolaUpdate() throws ZavrsniRadException;
     protected abstract void kontrolaDelete() throws ZavrsniRadException;
 
     
-    
-    
     public Obrada(T entitet) {
+        this();
+        this.entitet = entitet;
+    }
+    
+    public Obrada() {
         this.session = HibernateUtil.getSessionFactory().openSession();
     }
 
