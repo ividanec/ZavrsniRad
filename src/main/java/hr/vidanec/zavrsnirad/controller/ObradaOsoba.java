@@ -6,6 +6,7 @@
 package hr.vidanec.zavrsnirad.controller;
 
 import hr.vidanec.zavrsnirad.model.Osoba;
+import hr.vidanec.zavrsnirad.utility.Oib;
 import hr.vidanec.zavrsnirad.utility.ZavrsniRadException;
 import java.math.BigDecimal;
 import java.util.List;
@@ -20,9 +21,9 @@ public class ObradaOsoba extends Obrada<Osoba>{
         super(osoba);
     }
 
-    //public ObradaOsoba() {
-    //    super();
-    //}
+    public ObradaOsoba() {
+       super();
+    }
     
     public List<Osoba> getPodaci() {
         return session.createQuery("from Osoba").list();
@@ -31,11 +32,15 @@ public class ObradaOsoba extends Obrada<Osoba>{
     @Override
     protected void kontrolaCreate() throws ZavrsniRadException {
         kontrolaIme();
+        kontrolaPrezime();
+        kontrolaOib();
     }
 
     @Override
     protected void kontrolaUpdate() throws ZavrsniRadException {
-    
+        kontrolaIme();
+        kontrolaPrezime();
+        kontrolaOib();
     }
 
     @Override
@@ -43,7 +48,7 @@ public class ObradaOsoba extends Obrada<Osoba>{
     
     }
 
-    private void kontrolaIme() throws ZavrsniRadException {
+    protected void kontrolaIme() throws ZavrsniRadException {
         kontrolaNull(entitet.getIme(), "Ime nije definirano");
         
         // Provjera da nije prazan
@@ -67,7 +72,7 @@ public class ObradaOsoba extends Obrada<Osoba>{
         }
     }
     
-    private void kontrolaPrezime() throws ZavrsniRadException {
+    protected void kontrolaPrezime() throws ZavrsniRadException {
         kontrolaNull(entitet.getPrezime(), "Prezime nije definirano");
            // Provjera da nije prazan
         if(entitet.getPrezime().isEmpty()) {
@@ -90,25 +95,25 @@ public class ObradaOsoba extends Obrada<Osoba>{
         }
     }
     
-    private void kontrolaBrojaTelefona() throws ZavrsniRadException {
-        
+    protected void kontrolaBrojaTelefona() throws ZavrsniRadException {
+        if(entitet.getBroj_tel()==null || entitet.getBroj_tel().isEmpty()) {
+            throw new ZavrsniRadException("Broj telefona je obavezan");
+        }
     }
 
-    private void kontrolaOib() throws ZavrsniRadException {
+    protected void kontrolaOib() throws ZavrsniRadException {
         kontrolaNull(entitet.getOib(), "Oib nije definiran");
            // Provjera da nije prazan
         if(entitet.getOib().isEmpty()) {
             throw new ZavrsniRadException("Oib nije unesen!");
         }
         
-   
-        // Provjera broja znakova
-        if(entitet.getOib().length()>11 && entitet.getOib().length()<11) {
-            throw new ZavrsniRadException("Broj znakova mora biti 11");
+        if(!Oib.isValjan(entitet.getOib())) {
+            throw new ZavrsniRadException("OIB nije valjan");
         }
     }
     
-    private void kontrolaNull(Object o, String poruka) throws ZavrsniRadException{
+    protected void kontrolaNull(Object o, String poruka) throws ZavrsniRadException{
         if(o==null) {
             throw new ZavrsniRadException(poruka);
         }
