@@ -22,30 +22,32 @@ public class Start {
     public static void main(String[] args) {
         //PocetniInsert.izvedi();
         
-       // Osoba o = new Osoba();
+       Osoba o = new Osoba();
         
-       // ObradaOsoba obradaOsoba = new ObradaOsoba(o);
-       // o.setIme("Ivann");
-       // o.setOib("49147132554");
-        
-       // try {
-        //    obradaOsoba.create();
-        //} catch (ZavrsniRadException ex) {
-        //    System.out.println(ex.getPoruka());
-        //}
-        
-        
-        Knjiga k = new Knjiga();
-        
-        ObradaKnjiga obradaKnjiga = new ObradaKnjiga(k);
-        k.setAutor("Nikola Kojo");
-        k.setGodina("1980");
-        k.setNaziv("Valovi");
+        ObradaOsoba obradaOsoba = new ObradaOsoba(o);
+        o.setIme("Mirko");
+        o.setPrezime("Maric");
+       o.setOib("49147132554");
+       o.setBroj_tel("+385926989688");
         
         try {
-            obradaKnjiga.create();
-        } catch (ZavrsniRadException e) {
-            System.out.println(e.getPoruka());
+            obradaOsoba.create();
+        } catch (ZavrsniRadException ex) {
+            System.out.println(ex.getPoruka());
         }
+        
+        
+        //Knjiga k = new Knjiga();
+        
+        //ObradaKnjiga obradaKnjiga = new ObradaKnjiga(k);
+        //k.setAutor("Nikola Kojo");
+        //k.setGodina("1980");
+        //k.setNaziv("Valovi");
+        
+        //try {
+        //    obradaKnjiga.create();
+        //} catch (ZavrsniRadException e) {
+        //    System.out.println(e.getPoruka());
+        //}
     }
 }

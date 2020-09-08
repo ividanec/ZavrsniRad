@@ -49,7 +49,7 @@ public class ObradaKnjiga extends Obrada<Knjiga>{
     }
 
     protected void kontrolaNaziva() throws ZavrsniRadException{
-        if(entitet.getNaziv()==null || entitet.getNaziv().isEmpty()) {
+        if(entitet.getNaziv()==null || entitet.getNaziv().trim().isEmpty()) {
             throw new ZavrsniRadException("Naziv je obavezan");
         }
         
@@ -60,7 +60,7 @@ public class ObradaKnjiga extends Obrada<Knjiga>{
     }
     
     protected void kontrolaAutora() throws ZavrsniRadException{
-        if(entitet.getAutor()==null || entitet.getAutor().isEmpty()) {
+        if(entitet.getAutor()==null || entitet.getAutor().trim().isEmpty()) {
             throw new ZavrsniRadException("Autor je obavezan");
         }
         
@@ -71,7 +71,7 @@ public class ObradaKnjiga extends Obrada<Knjiga>{
     }
     
     protected  void kontrolaGodine() throws ZavrsniRadException{
-        if(entitet.getGodina()==null || entitet.getGodina().isEmpty()) {
+        if(entitet.getGodina()==null || entitet.getGodina().trim().isEmpty()) {
             throw new ZavrsniRadException("Godina je obavezna");
         }
     }

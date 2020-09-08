@@ -34,6 +34,7 @@ public class ObradaOsoba extends Obrada<Osoba>{
         kontrolaIme();
         kontrolaPrezime();
         kontrolaOib();
+        kontrolaBrojaTelefona();
     }
 
     @Override
@@ -41,6 +42,7 @@ public class ObradaOsoba extends Obrada<Osoba>{
         kontrolaIme();
         kontrolaPrezime();
         kontrolaOib();
+        kontrolaBrojaTelefona();
     }
 
     @Override
@@ -52,18 +54,12 @@ public class ObradaOsoba extends Obrada<Osoba>{
         kontrolaNull(entitet.getIme(), "Ime nije definirano");
         
         // Provjera da nije prazan
-        if(entitet.getIme().isEmpty()) {
-            throw new ZavrsniRadException("Naziv nije unesen!");
+        if(entitet.getIme().trim().isEmpty()) {
+            throw new ZavrsniRadException("Ime nije uneseno!");
         }
         // Provjera da nije broj
-        boolean broj=false;
-        try {
-            new BigDecimal(entitet.getIme());
-            broj=true;
-        } catch (Exception e) {
-        }
-        if(broj) {
-            throw new ZavrsniRadException("Naziv ne moze biti broj");
+         if(!entitet.getIme().matches(".*[a-zA-Z]+.*")){
+            throw new ZavrsniRadException("Ime ne moze biti broj");
         }
         
         // Provjera broja znakova
@@ -75,18 +71,12 @@ public class ObradaOsoba extends Obrada<Osoba>{
     protected void kontrolaPrezime() throws ZavrsniRadException {
         kontrolaNull(entitet.getPrezime(), "Prezime nije definirano");
            // Provjera da nije prazan
-        if(entitet.getPrezime().isEmpty()) {
+        if(entitet.getPrezime().trim().isEmpty()) {
             throw new ZavrsniRadException("Prezime nije uneseno!");
         }
         // Provjera da nije broj
-        boolean broj=false;
-        try {
-            new BigDecimal(entitet.getPrezime());
-            broj=true;
-        } catch (Exception e) {
-        }
-        if(broj) {
-            throw new ZavrsniRadException("Naziv ne moze biti broj");
+         if(!entitet.getPrezime().matches(".*[a-zA-Z]+.*")){
+            throw new ZavrsniRadException("Prezime ne moze biti broj");
         }
         
         // Provjera broja znakova
