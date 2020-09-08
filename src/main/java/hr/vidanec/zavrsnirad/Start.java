@@ -25,7 +25,7 @@ public class Start {
        Osoba o = new Osoba();
         
         ObradaOsoba obradaOsoba = new ObradaOsoba(o);
-        o.setIme("Mirko");
+        o.setIme("Mirko12452");
         o.setPrezime("Maric");
        o.setOib("49147132554");
        o.setBroj_tel("+385926989688");

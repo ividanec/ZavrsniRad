@@ -58,7 +58,7 @@ public class ObradaOsoba extends Obrada<Osoba>{
             throw new ZavrsniRadException("Ime nije uneseno!");
         }
         // Provjera da nije broj
-         if(!entitet.getIme().matches(".*[a-zA-Z]+.*")){
+         if(!entitet.getIme().matches("[a-zA-Z]+")){
             throw new ZavrsniRadException("Ime ne moze biti broj");
         }
         
@@ -75,7 +75,7 @@ public class ObradaOsoba extends Obrada<Osoba>{
             throw new ZavrsniRadException("Prezime nije uneseno!");
         }
         // Provjera da nije broj
-         if(!entitet.getPrezime().matches(".*[a-zA-Z]+.*")){
+         if(!entitet.getPrezime().matches("[a-zA-Z]+")){
             throw new ZavrsniRadException("Prezime ne moze biti broj");
         }
         
