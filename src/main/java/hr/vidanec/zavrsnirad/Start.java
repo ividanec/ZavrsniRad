@@ -20,21 +20,21 @@ import hr.vidanec.zavrsnirad.utility.ZavrsniRadException;
  */
 public class Start {
     public static void main(String[] args) {
-        //PocetniInsert.izvedi();
+        PocetniInsert.izvedi();
         
-       Osoba o = new Osoba();
-        
-        ObradaOsoba obradaOsoba = new ObradaOsoba(o);
-        o.setIme("Mirko12452");
-        o.setPrezime("Maric");
-       o.setOib("49147132554");
-       o.setBroj_tel("+385926989688");
-        
-        try {
-            obradaOsoba.create();
-        } catch (ZavrsniRadException ex) {
-            System.out.println(ex.getPoruka());
-        }
+//       Osoba o = new Osoba();
+//        
+//        ObradaOsoba obradaOsoba = new ObradaOsoba(o);
+//        o.setIme("Lovre");
+//        o.setPrezime("Kulen");
+//       o.setOib("49147132554");
+//       o.setBroj_tel("+38597777777");
+//        
+//        try {
+//            obradaOsoba.create();
+//        } catch (ZavrsniRadException ex) {
+//            System.out.println(ex.getPoruka());
+//        }
         
         
         //Knjiga k = new Knjiga();

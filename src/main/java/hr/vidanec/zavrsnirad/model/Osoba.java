@@ -5,6 +5,7 @@
  */
 package hr.vidanec.zavrsnirad.model;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 
 
@@ -16,6 +17,7 @@ import javax.persistence.Entity;
 public class Osoba extends Entitet{
     private String ime;
     private String prezime;
+    @Column(name="brojTelefona")
     private String broj_tel;
     private String oib;
 
