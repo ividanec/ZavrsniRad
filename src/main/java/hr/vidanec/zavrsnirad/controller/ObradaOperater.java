@@ -6,6 +6,7 @@
 package hr.vidanec.zavrsnirad.controller;
 
 import hr.vidanec.zavrsnirad.model.Operater;
+import hr.vidanec.zavrsnirad.utility.Oib;
 import hr.vidanec.zavrsnirad.utility.ZavrsniRadException;
 import java.util.List;
 import org.mindrot.jbcrypt.BCrypt;
@@ -37,6 +38,9 @@ public class ObradaOperater extends Obrada<Operater>{
     
     @Override
     protected void kontrolaCreate() throws ZavrsniRadException {
+      kontrolaIme();
+      kontrolaPrezime();
+      kontrolaOib();
       
     }
 
@@ -49,5 +53,49 @@ public class ObradaOperater extends Obrada<Operater>{
     protected void kontrolaDelete() throws ZavrsniRadException {
     
     }
+
+    private void kontrolaIme() throws ZavrsniRadException {
+        if(entitet.getIme()==null || entitet.getIme().isEmpty()) {
+            throw new ZavrsniRadException("Ime je obavezno");
+        }
+        
+        // Provjera da nije broj
+         if(!entitet.getIme().matches("[a-zA-Z]+")){
+            throw new ZavrsniRadException("Ime ne moze biti broj");
+        }
+         
+          // Provjera broja znakova
+        if(entitet.getIme().length()>30) {
+            throw new ZavrsniRadException("Broj znakova ne moze biti veci od 30");
+        }
+    }
+
+    private void kontrolaPrezime() throws ZavrsniRadException {
+          if(entitet.getPrezime()==null || entitet.getPrezime().isEmpty()) {
+            throw new ZavrsniRadException("Prezime je obavezno");
+        }
+        
+        // Provjera da nije broj
+         if(!entitet.getPrezime().matches("[a-zA-Z]+")){
+            throw new ZavrsniRadException("Prezime ne moze biti broj");
+        }
+         
+          // Provjera broja znakova
+        if(entitet.getPrezime().length()>30) {
+            throw new ZavrsniRadException("Broj znakova ne moze biti veci od 30");
+        }
+    }
+
+    private void kontrolaOib() throws ZavrsniRadException {
+        if(entitet.getOib()==null || entitet.getOib().isEmpty()) {
+            throw new ZavrsniRadException("Prezime je obavezno");
+        }
+        
+        if(!Oib.isValjan(entitet.getOib())) {
+            throw new ZavrsniRadException("OIB nije valjan");
+        }
+    }
+
+    
     
 }
