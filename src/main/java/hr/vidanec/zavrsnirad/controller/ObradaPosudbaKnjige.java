@@ -24,6 +24,7 @@ public class ObradaPosudbaKnjige extends Obrada<PosudbaKnjige>{
     }
 
     
+    @Override
     public List<PosudbaKnjige> getPodaci() {
       return session.createQuery("from PosudbaKnjige").list();
     }

@@ -19,10 +19,26 @@ public abstract class Obrada<T> {
     protected T entitet;
     protected Session session;
     
-    
+    public abstract List<T> getPodaci();
     protected abstract void kontrolaCreate() throws ZavrsniRadException;
     protected abstract void kontrolaUpdate() throws ZavrsniRadException;
     protected abstract void kontrolaDelete() throws ZavrsniRadException;
+
+    public T getEntitet() {
+        return entitet;
+    }
+
+    public void setEntitet(T entitet) {
+        this.entitet = entitet;
+    }
+
+    public Session getSession() {
+        return session;
+    }
+
+    public void setSession(Session session) {
+        this.session = session;
+    }
 
     
     public Obrada(T entitet) {
@@ -37,6 +53,19 @@ public abstract class Obrada<T> {
     public T create() throws ZavrsniRadException {
         kontrolaCreate();
         save();
+        return entitet;
+    }
+    
+     public T createAll(List<T> lista) throws ZavrsniRadException {
+        session.beginTransaction();
+        for (T t : lista) {
+            setEntitet(t);
+            kontrolaCreate();
+            session.save(t);
+        }
+        session.getTransaction().commit();
+       
+      
         return entitet;
     }
     

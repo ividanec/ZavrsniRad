@@ -23,6 +23,7 @@ public class ObradaKnjiga extends Obrada<Knjiga>{
         super();
     }
     
+    @Override
     public List<Knjiga> getPodaci() {
         return session.createQuery("from Knjiga").list();
     }

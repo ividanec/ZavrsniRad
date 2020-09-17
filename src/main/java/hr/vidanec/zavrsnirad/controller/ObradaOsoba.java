@@ -25,6 +25,7 @@ public class ObradaOsoba extends Obrada<Osoba>{
        super();
     }
     
+    @Override
     public List<Osoba> getPodaci() {
         return session.createQuery("from Osoba").list();
     }

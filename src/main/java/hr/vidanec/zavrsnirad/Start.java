@@ -13,6 +13,8 @@ import hr.vidanec.zavrsnirad.model.Osoba;
 import hr.vidanec.zavrsnirad.model.PosudbaKnjige;
 import hr.vidanec.zavrsnirad.utility.PocetniInsert;
 import hr.vidanec.zavrsnirad.utility.ZavrsniRadException;
+import hr.vidanec.zavrsnirad.view.Autorizacija;
+import hr.vidanec.zavrsnirad.view.Izbornik;
 
 /**
  *
@@ -20,7 +22,11 @@ import hr.vidanec.zavrsnirad.utility.ZavrsniRadException;
  */
 public class Start {
     public static void main(String[] args) {
-        PocetniInsert.izvedi();
+        
+        new Autorizacija().setVisible(true);
+//        new Izbornik().setVisible(true);
+        
+//        PocetniInsert.izvedi();
         
 //       Osoba o = new Osoba();
 //        

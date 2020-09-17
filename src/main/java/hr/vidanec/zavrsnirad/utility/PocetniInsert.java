@@ -6,7 +6,9 @@
 package hr.vidanec.zavrsnirad.utility;
 
 import com.github.javafaker.Faker;
+import hr.vidanec.zavrsnirad.controller.ObradaOperater;
 import hr.vidanec.zavrsnirad.model.Knjiga;
+import hr.vidanec.zavrsnirad.model.Operater;
 import hr.vidanec.zavrsnirad.model.Osoba;
 import hr.vidanec.zavrsnirad.model.PosudbaKnjige;
 import java.util.ArrayList;
@@ -14,6 +16,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 import org.hibernate.Session;
+import org.mindrot.jbcrypt.BCrypt;
 
 /**
  *
@@ -24,6 +27,22 @@ public class PocetniInsert {
     public static void izvedi() {
         
         Session session = HibernateUtil.getSessionFactory().openSession();
+        
+        Operater operater = new Operater();
+        operater.setIme("Ivan");
+        operater.setPrezime("Vidanec");
+        operater.setEmail("ivid@gmail.com");
+        operater.setOib("25983140218");
+        operater.setLozinka(BCrypt.hashpw("i", BCrypt.gensalt()));
+        
+        ObradaOperater oo = new ObradaOperater();
+        oo.setEntitet(operater);
+        try {
+            oo.create();
+        } catch (ZavrsniRadException e) {
+            e.printStackTrace();
+        }
+        
         session.beginTransaction();
         Faker faker = new Faker();
         

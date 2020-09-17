@@ -34,7 +34,7 @@
             create-drop: drop the schema at the end of the session. 
             1. puta create-drop, poslije update
             -->
-        <property name="hbm2ddl.auto">create-drop</property>
+        <property name="hbm2ddl.auto">update</property>
         <!-- dbcp connection pool configuration -->
         <property name="hibernate.dbcp.initialSize">5</property>
         <property name="hibernate.dbcp.maxTotal">20</property>
@@ -44,9 +44,11 @@
         
         
         <!-- Ovdje navodimo naše mapirane klase -->
+        <mapping class="hr.vidanec.zavrsnirad.model.Operater" />
          <mapping class="hr.vidanec.zavrsnirad.model.Knjiga" />
          <mapping class="hr.vidanec.zavrsnirad.model.Osoba" />
          <mapping class="hr.vidanec.zavrsnirad.model.PosudbaKnjige" />
+         
         
     </session-factory>
 </hibernate-configuration>
