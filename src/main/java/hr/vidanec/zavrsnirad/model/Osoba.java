@@ -52,6 +52,11 @@ public class Osoba extends Entitet{
     public void setOib(String oib) {
         this.oib = oib;
     }
+
+    @Override
+    public String toString() {
+        return getIme() +" "+ getPrezime();
+    }
     
     
 }
