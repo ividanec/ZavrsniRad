@@ -5,8 +5,11 @@
  */
 package hr.vidanec.zavrsnirad.model;
 
+import java.util.ArrayList;
+import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.OneToMany;
 
 
 /**
@@ -20,6 +23,17 @@ public class Osoba extends Entitet{
     @Column(name="brojTelefona")
     private String broj_tel;
     private String oib;
+    
+    @OneToMany(mappedBy = "osoba")
+    private List<PosudbaKnjige> posudbaKnjige = new ArrayList<>();
+
+    public List<PosudbaKnjige> getPosudbaKnjige() {
+        return posudbaKnjige;
+    }
+
+    public void setPosudbaKnjige(List<PosudbaKnjige> posudbaKnjige) {
+        this.posudbaKnjige = posudbaKnjige;
+    }
 
     public String getIme() {
         return ime;

@@ -24,21 +24,6 @@ public abstract class Obrada<T> {
     protected abstract void kontrolaUpdate() throws ZavrsniRadException;
     protected abstract void kontrolaDelete() throws ZavrsniRadException;
 
-    public T getEntitet() {
-        return entitet;
-    }
-
-    public void setEntitet(T entitet) {
-        this.entitet = entitet;
-    }
-
-    public Session getSession() {
-        return session;
-    }
-
-    public void setSession(Session session) {
-        this.session = session;
-    }
 
     
     public Obrada(T entitet) {
@@ -79,7 +64,7 @@ public abstract class Obrada<T> {
         kontrolaDelete();
         session.beginTransaction();
         session.delete(entitet);
-        session.getTransaction();
+        session.getTransaction().commit();
         return true;
     }
 
@@ -87,6 +72,14 @@ public abstract class Obrada<T> {
         session.beginTransaction();
         session.save(entitet);
         session.getTransaction().commit();
+    }
+    
+    public T getEntitet() {
+        return entitet;
+    }
+
+    public void setEntitet(T entitet) {
+        this.entitet = entitet;
     }
     
 }

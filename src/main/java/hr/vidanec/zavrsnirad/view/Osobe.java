@@ -7,7 +7,10 @@ package hr.vidanec.zavrsnirad.view;
 
 import hr.vidanec.zavrsnirad.controller.ObradaOsoba;
 import hr.vidanec.zavrsnirad.model.Osoba;
+import hr.vidanec.zavrsnirad.utility.ZavrsniRadException;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
 import javax.swing.ListModel;
 
@@ -18,6 +21,7 @@ import javax.swing.ListModel;
 public class Osobe extends javax.swing.JFrame {
 
     private ObradaOsoba obrada;
+    private Osoba entitet;
     
     /**
      * Creates new form Osobe
@@ -51,10 +55,18 @@ public class Osobe extends javax.swing.JFrame {
         btnPromjeni = new javax.swing.JButton();
         btnObrisi = new javax.swing.JButton();
         txtPrezime = new javax.swing.JTextField();
+        lblPoruka = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
+        lstPodaci.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
+            public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
+                lstPodaciValueChanged(evt);
+            }
+        });
         jScrollPane1.setViewportView(lstPodaci);
+
+        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Podaci"));
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 0, 10)); // NOI18N
         jLabel1.setText("Ime");
@@ -66,10 +78,25 @@ public class Osobe extends javax.swing.JFrame {
         jLabel4.setText("Oib");
 
         btnDodaj.setText("Dodaj");
+        btnDodaj.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDodajActionPerformed(evt);
+            }
+        });
 
         btnPromjeni.setText("Promjeni");
+        btnPromjeni.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnPromjeniActionPerformed(evt);
+            }
+        });
 
         btnObrisi.setText("Obrisi");
+        btnObrisi.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnObrisiActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -91,13 +118,14 @@ public class Osobe extends javax.swing.JFrame {
                         .addComponent(txtBrojTelefona, javax.swing.GroupLayout.Alignment.LEADING)
                         .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.LEADING)
                         .addComponent(txtOib, javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.LEADING)))
-                .addGap(0, 24, Short.MAX_VALUE))
+                        .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.LEADING))
+                    .addComponent(lblPoruka, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(0, 12, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(20, 20, 20)
+                .addContainerGap()
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(txtIme, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -105,20 +133,21 @@ public class Osobe extends javax.swing.JFrame {
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(txtPrezime, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(11, 11, 11)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel3)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(txtBrojTelefona, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel4)
-                .addGap(4, 4, 4)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(txtOib, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(27, 27, 27)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(lblPoruka, javax.swing.GroupLayout.DEFAULT_SIZE, 23, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnDodaj)
                     .addComponent(btnPromjeni)
-                    .addComponent(btnObrisi))
-                .addContainerGap(43, Short.MAX_VALUE))
+                    .addComponent(btnObrisi)))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -135,15 +164,86 @@ public class Osobe extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 254, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(112, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jScrollPane1))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
+
+    private void lstPodaciValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_lstPodaciValueChanged
+        if(evt.getValueIsAdjusting()) {
+            return;
+        }
+        
+        entitet=lstPodaci.getSelectedValue();
+        if(entitet==null){
+            return;
+        }
+        
+        txtIme.setText(entitet.getIme());
+        txtPrezime.setText(entitet.getPrezime());
+        txtBrojTelefona.setText(entitet.getBroj_tel());
+        txtOib.setText(entitet.getOib());
+        
+        
+    }//GEN-LAST:event_lstPodaciValueChanged
+
+    private void btnDodajActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDodajActionPerformed
+        
+            entitet = new Osoba();
+            
+            entitet.setIme(txtIme.getText());
+            entitet.setPrezime(txtPrezime.getText());
+            entitet.setBroj_tel(txtBrojTelefona.getText());
+            entitet.setOib(txtOib.getText());
+            
+            obrada.setEntitet(entitet);
+            try {
+            obrada.create();
+            ucitajPodatke();
+            ocistiPolja();
+        } catch (ZavrsniRadException ex) {
+            lblPoruka.setText(ex.getPoruka());
+        }
+    }//GEN-LAST:event_btnDodajActionPerformed
+
+    private void btnPromjeniActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPromjeniActionPerformed
+        entitet = lstPodaci.getSelectedValue();
+        if(entitet==null){
+            return;
+        }
+        
+        postaviVrijednostiUEntitet();
+        
+        try {
+            obrada.update();
+            ucitajPodatke();
+            ocistiPolja();
+        } catch (ZavrsniRadException e) {
+            lblPoruka.setText(e.getPoruka());
+        }
+    }//GEN-LAST:event_btnPromjeniActionPerformed
+
+    private void btnObrisiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnObrisiActionPerformed
+            entitet = lstPodaci.getSelectedValue();
+        if (entitet == null) {
+            return;
+        }
+
+        obrada.setEntitet(entitet);
+
+        try {
+            obrada.delete();
+            ucitajPodatke();
+            ocistiPolja();
+        } catch (ZavrsniRadException e) {
+            lblPoruka.setText(e.getPoruka());
+        }
+    }//GEN-LAST:event_btnObrisiActionPerformed
 
     
 
@@ -157,6 +257,7 @@ public class Osobe extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JLabel lblPoruka;
     private javax.swing.JList<Osoba> lstPodaci;
     private javax.swing.JTextField txtBrojTelefona;
     private javax.swing.JTextField txtIme;
@@ -179,5 +280,21 @@ public class Osobe extends javax.swing.JFrame {
         //obrada.getPodaci().forEach(s -> m.addElement(s));
 
         lstPodaci.setModel(m);
+    }
+
+    private void ocistiPolja() {
+        txtIme.setText("");
+        txtPrezime.setText("");
+        txtBrojTelefona.setText("");
+        txtOib.setText("");
+    }
+
+    private void postaviVrijednostiUEntitet() {
+            entitet.setIme(txtIme.getText());
+            entitet.setPrezime(txtPrezime.getText());
+            entitet.setBroj_tel(txtBrojTelefona.getText());
+            entitet.setOib(txtOib.getText());
+            
+            obrada.setEntitet(entitet);
     }
 }
