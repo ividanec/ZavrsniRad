@@ -19,6 +19,16 @@
             </MenuItem>
             <MenuItem class="javax.swing.JPopupMenu$Separator" name="jmiSeparator">
             </MenuItem>
+            <MenuItem class="javax.swing.JMenuItem" name="jmiKnjige">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Knjige"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jmiKnjigeActionPerformed"/>
+              </Events>
+            </MenuItem>
+            <MenuItem class="javax.swing.JPopupMenu$Separator" name="jSeparator1">
+            </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="jmiIzlaz">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Izlaz"/>

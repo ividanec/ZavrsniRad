@@ -35,7 +35,7 @@ public class ObradaOsoba extends Obrada<Osoba>{
                 + " where concat(o.ime, ' ', o.prezime, ' ', o.oib) "
                 + " like :uvjet ")
                 .setParameter("uvjet", "%"+uvjet+"%")
-                .setMaxResults(10)
+                .setMaxResults(20)
                 .list();
     }
 

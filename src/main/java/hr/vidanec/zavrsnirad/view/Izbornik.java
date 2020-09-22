@@ -35,6 +35,8 @@ public class Izbornik extends javax.swing.JFrame {
         jmNaslovGrana = new javax.swing.JMenu();
         jmiOsobe = new javax.swing.JMenuItem();
         jmiSeparator = new javax.swing.JPopupMenu.Separator();
+        jmiKnjige = new javax.swing.JMenuItem();
+        jSeparator1 = new javax.swing.JPopupMenu.Separator();
         jmiIzlaz = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -51,6 +53,15 @@ public class Izbornik extends javax.swing.JFrame {
         });
         jmNaslovGrana.add(jmiOsobe);
         jmNaslovGrana.add(jmiSeparator);
+
+        jmiKnjige.setText("Knjige");
+        jmiKnjige.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jmiKnjigeActionPerformed(evt);
+            }
+        });
+        jmNaslovGrana.add(jmiKnjige);
+        jmNaslovGrana.add(jSeparator1);
 
         jmiIzlaz.setText("Izlaz");
         jmiIzlaz.addActionListener(new java.awt.event.ActionListener() {
@@ -87,13 +98,19 @@ public class Izbornik extends javax.swing.JFrame {
         new Osobe().setVisible(true);
     }//GEN-LAST:event_jmiOsobeActionPerformed
 
+    private void jmiKnjigeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmiKnjigeActionPerformed
+        new Knjige().setVisible(true);
+    }//GEN-LAST:event_jmiKnjigeActionPerformed
+
    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;
     private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JPopupMenu.Separator jSeparator1;
     private javax.swing.JMenu jmNaslovGrana;
     private javax.swing.JMenuItem jmiIzlaz;
+    private javax.swing.JMenuItem jmiKnjige;
     private javax.swing.JMenuItem jmiOsobe;
     private javax.swing.JPopupMenu.Separator jmiSeparator;
     // End of variables declaration//GEN-END:variables

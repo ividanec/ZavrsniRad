@@ -5,7 +5,10 @@
  */
 package hr.vidanec.zavrsnirad.model;
 
+import java.util.ArrayList;
+import java.util.List;
 import javax.persistence.Entity;
+import javax.persistence.ManyToMany;
 
 /**
  *
@@ -16,6 +19,19 @@ public class Knjiga extends Entitet{
     private String naziv;
     private String autor;
     private String godina;
+    
+    @ManyToMany(mappedBy = "knjige")
+    private List<PosudbaKnjige> posudbaKnjige = new ArrayList<>();
+
+    public List<PosudbaKnjige> getPosudbaKnjige() {
+        return posudbaKnjige;
+    }
+
+    public void setPosudbaKnjige(List<PosudbaKnjige> posudbaKnjige) {
+        this.posudbaKnjige = posudbaKnjige;
+    }
+    
+    
 
     public String getNaziv() {
         return naziv;
@@ -40,5 +56,12 @@ public class Knjiga extends Entitet{
     public void setGodina(String godina) {
         this.godina = godina;
     }
+
+    @Override
+    public String toString() {
+        return getNaziv();
+    }
+    
+    
     
 }

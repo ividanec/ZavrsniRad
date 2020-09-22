@@ -319,6 +319,7 @@ public class Osobe extends javax.swing.JFrame {
         txtPrezime.setText("");
         txtBrojTelefona.setText("");
         txtOib.setText("");
+        lblPoruka.setText("");
     }
 
     private void postaviVrijednostiUEntitet() {
