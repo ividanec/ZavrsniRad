@@ -72,5 +72,7 @@ public class Osoba extends Entitet{
         return getIme() +" "+ getPrezime();
     }
     
-    
+    public String getImePrezime(){
+        return getIme() + " " + getPrezime();
+    }
 }

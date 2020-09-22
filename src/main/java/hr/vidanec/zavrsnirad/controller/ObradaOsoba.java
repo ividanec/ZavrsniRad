@@ -29,11 +29,21 @@ public class ObradaOsoba extends Obrada<Osoba>{
     public List<Osoba> getPodaci() {
         return session.createQuery("from Osoba").list();
     }
+    
+    public List<Osoba> getPodaci(String uvjet) {
+        return session.createQuery("from Osoba o "
+                + " where concat(o.ime, ' ', o.prezime, ' ', o.oib) "
+                + " like :uvjet ")
+                .setParameter("uvjet", "%"+uvjet+"%")
+                .setMaxResults(10)
+                .list();
+    }
 
     @Override
     protected void kontrolaCreate() throws ZavrsniRadException {
         kontrolaIme();
         kontrolaPrezime();
+        kontrolaOibBaza();
         kontrolaOib();
         kontrolaBrojaTelefona();
     }
@@ -109,6 +119,18 @@ public class ObradaOsoba extends Obrada<Osoba>{
     protected void kontrolaNull(Object o, String poruka) throws ZavrsniRadException{
         if(o==null) {
             throw new ZavrsniRadException(poruka);
+        }
+    }
+
+    private void kontrolaOibBaza() throws ZavrsniRadException {
+        List<Osoba> lista = session.createQuery(""
+            + " from Osoba o "
+            + " where o.oib=:oib "
+            )
+            .setParameter("oib", entitet.getOib())
+            .list();
+        if(lista.size()>0){
+            throw new ZavrsniRadException("Oib je vec dodijeljen osobi " + lista.get(0).getImePrezime());
         }
     }
     
