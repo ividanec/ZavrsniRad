@@ -153,14 +153,14 @@ public class Autorizacija extends javax.swing.JFrame {
         
         if(pswLozinka.getPassword().length==0){
             pswLozinka.requestFocus();
-            JOptionPane.showMessageDialog(rootPane, "Lozinka obavezno");
+            JOptionPane.showMessageDialog(rootPane, "Lozinka obavezna");
             return;
         }
         
         ObradaOperater oo = new ObradaOperater();
         Operater operater = oo.autoriziraj(txtEmail.getText(), pswLozinka.getPassword());
         if(operater==null){
-           JOptionPane.showMessageDialog(rootPane, "Ne ispravna kombinacija email i lozinka");
+           JOptionPane.showMessageDialog(rootPane, "Neispravna kombinacija emaila i lozinke");
             return; 
         }
         
