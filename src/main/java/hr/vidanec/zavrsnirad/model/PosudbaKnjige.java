@@ -69,25 +69,10 @@ public class PosudbaKnjige extends Entitet{
         this.osoba = osoba;
     }
 
-    
+    @Override
+    public String toString() {
+        return getOsoba().getImePrezime();
+    }
 
-    
-
-   
-
-   
-
-   
-
-    
-
-    
-
-   
-
-  
-
-  
-    
     
 }

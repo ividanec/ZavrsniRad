@@ -29,6 +29,7 @@ public class Osobe extends javax.swing.JFrame {
      */
     public Osobe() {
         initComponents();
+        setTitle("Osobe");
         btnTrazi.setText("\uD83D\uDD0E");
         obrada = new ObradaOsoba();
         ucitajPodatke();
@@ -61,7 +62,7 @@ public class Osobe extends javax.swing.JFrame {
         txtUvjet = new javax.swing.JTextField();
         btnTrazi = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         lstPodaci.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
             public void valueChanged(javax.swing.event.ListSelectionEvent evt) {

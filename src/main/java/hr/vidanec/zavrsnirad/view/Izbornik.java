@@ -36,6 +36,8 @@ public class Izbornik extends javax.swing.JFrame {
         jmiOsobe = new javax.swing.JMenuItem();
         jmiSeparator = new javax.swing.JPopupMenu.Separator();
         jmiKnjige = new javax.swing.JMenuItem();
+        jSeparator2 = new javax.swing.JPopupMenu.Separator();
+        jmiPosudbeKnjiga = new javax.swing.JMenuItem();
         jSeparator1 = new javax.swing.JPopupMenu.Separator();
         jmiIzlaz = new javax.swing.JMenuItem();
 
@@ -61,6 +63,15 @@ public class Izbornik extends javax.swing.JFrame {
             }
         });
         jmNaslovGrana.add(jmiKnjige);
+        jmNaslovGrana.add(jSeparator2);
+
+        jmiPosudbeKnjiga.setText("Posudbe knjiga");
+        jmiPosudbeKnjiga.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jmiPosudbeKnjigaActionPerformed(evt);
+            }
+        });
+        jmNaslovGrana.add(jmiPosudbeKnjiga);
         jmNaslovGrana.add(jSeparator1);
 
         jmiIzlaz.setText("Izlaz");
@@ -102,16 +113,22 @@ public class Izbornik extends javax.swing.JFrame {
         new Knjige().setVisible(true);
     }//GEN-LAST:event_jmiKnjigeActionPerformed
 
+    private void jmiPosudbeKnjigaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmiPosudbeKnjigaActionPerformed
+        new PosudbeKnjiga().setVisible(true);
+    }//GEN-LAST:event_jmiPosudbeKnjigaActionPerformed
+
    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JPopupMenu.Separator jSeparator1;
+    private javax.swing.JPopupMenu.Separator jSeparator2;
     private javax.swing.JMenu jmNaslovGrana;
     private javax.swing.JMenuItem jmiIzlaz;
     private javax.swing.JMenuItem jmiKnjige;
     private javax.swing.JMenuItem jmiOsobe;
+    private javax.swing.JMenuItem jmiPosudbeKnjiga;
     private javax.swing.JPopupMenu.Separator jmiSeparator;
     // End of variables declaration//GEN-END:variables
 }

@@ -23,6 +23,7 @@ public class Knjige extends javax.swing.JFrame {
      */
     public Knjige() {
         initComponents();
+        setTitle("Knjige");
         obrada = new ObradaKnjiga();
         ucitajPodatke();
     }
@@ -50,7 +51,7 @@ public class Knjige extends javax.swing.JFrame {
         btnPromjeni = new javax.swing.JButton();
         lblPoruka = new javax.swing.JLabel();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         lstPodaci.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
             public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
@@ -58,6 +59,8 @@ public class Knjige extends javax.swing.JFrame {
             }
         });
         jScrollPane1.setViewportView(lstPodaci);
+
+        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Podaci"));
 
         jLabel1.setText("Autor");
 
@@ -143,8 +146,8 @@ public class Knjige extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(20, 20, 20)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 124, Short.MAX_VALUE)
-                .addGap(18, 18, 18)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 212, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 33, Short.MAX_VALUE)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
