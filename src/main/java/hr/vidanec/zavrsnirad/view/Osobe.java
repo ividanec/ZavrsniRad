@@ -225,12 +225,7 @@ public class Osobe extends javax.swing.JFrame {
         
             entitet = new Osoba();
             
-            entitet.setIme(txtIme.getText());
-            entitet.setPrezime(txtPrezime.getText());
-            entitet.setBroj_tel(txtBrojTelefona.getText());
-            entitet.setOib(txtOib.getText());
-            
-            obrada.setEntitet(entitet);
+            postaviVrijednostiUEntitet();
             try {
             obrada.create();
             ucitajPodatke();

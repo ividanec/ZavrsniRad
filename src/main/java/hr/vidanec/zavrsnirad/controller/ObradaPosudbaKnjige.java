@@ -42,7 +42,9 @@ public class ObradaPosudbaKnjige extends Obrada<PosudbaKnjige>{
 
     @Override
     protected void kontrolaDelete() throws ZavrsniRadException {
-    
+        if(entitet.getKnjige().size()>0){
+            throw new ZavrsniRadException("Posudba knjige se ne moze obrisati,osoba ima jednu ili vise posudbi knjiga");
+        }
     }
     
     protected void kontrolaDatumaPosudbe() throws ZavrsniRadException {

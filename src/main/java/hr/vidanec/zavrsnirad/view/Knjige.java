@@ -186,11 +186,7 @@ public class Knjige extends javax.swing.JFrame {
     private void btnDodajActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDodajActionPerformed
         entitet = new Knjiga();
         
-        entitet.setAutor(txtAutor.getText());
-        entitet.setGodina(txtGodina.getText());
-        entitet.setNaziv(txtNaziv.getText());
-        
-        obrada.setEntitet(entitet);
+        postaviVrijednostiUEntitet();
           try {
             obrada.create();
             ucitajPodatke();

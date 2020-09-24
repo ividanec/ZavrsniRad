@@ -5,8 +5,16 @@
  */
 package hr.vidanec.zavrsnirad.view;
 
+import com.github.lgooddatepicker.components.DatePickerSettings;
+import hr.vidanec.zavrsnirad.controller.ObradaOsoba;
 import hr.vidanec.zavrsnirad.controller.ObradaPosudbaKnjige;
+import hr.vidanec.zavrsnirad.model.Osoba;
 import hr.vidanec.zavrsnirad.model.PosudbaKnjige;
+import hr.vidanec.zavrsnirad.utility.ZavrsniRadException;
+import java.time.ZoneId;
+import java.util.Date;
+import java.util.Locale;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListModel;
 
 /**
@@ -25,6 +33,19 @@ public class PosudbeKnjiga extends javax.swing.JFrame {
         setTitle("Posudbe knjiga");
         obrada = new ObradaPosudbaKnjige();
         ucitajPodatke();
+        
+        DefaultComboBoxModel<Osoba> mo = new DefaultComboBoxModel<>();
+        new ObradaOsoba().getPodaci().forEach(o -> {mo.addElement(o);
+        });
+        cmbOsobe.setModel(mo);
+        
+        DatePickerSettings dps = new DatePickerSettings(new Locale("hr", "HR"));
+        dps.setFormatForDatesCommonEra("dd.MM.yyyy");
+        dpiDatumPosudbe.setSettings(dps);
+        
+        DatePickerSettings dps2 = new DatePickerSettings(new Locale("hr", "HR"));
+        dps2.setFormatForDatesCommonEra("dd.MM.yyyy");
+        dpiDatumPovratka.setSettings(dps2);
     }
 
     /**
@@ -43,9 +64,20 @@ public class PosudbeKnjiga extends javax.swing.JFrame {
         dpiDatumPosudbe = new com.github.lgooddatepicker.components.DatePicker();
         jLabel2 = new javax.swing.JLabel();
         dpiDatumPovratka = new com.github.lgooddatepicker.components.DatePicker();
+        jLabel3 = new javax.swing.JLabel();
+        cmbOsobe = new javax.swing.JComboBox<>();
+        btnDodaj = new javax.swing.JButton();
+        btnPromjeni = new javax.swing.JButton();
+        btnObrisi = new javax.swing.JButton();
+        lblPoruka = new javax.swing.JLabel();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
+        lstPodaci.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
+            public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
+                lstPodaciValueChanged(evt);
+            }
+        });
         jScrollPane1.setViewportView(lstPodaci);
 
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Podaci"));
@@ -54,6 +86,29 @@ public class PosudbeKnjiga extends javax.swing.JFrame {
 
         jLabel2.setText("Datum povratka");
 
+        jLabel3.setText("Osoba");
+
+        btnDodaj.setText("Dodaj");
+        btnDodaj.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDodajActionPerformed(evt);
+            }
+        });
+
+        btnPromjeni.setText("Promjeni");
+        btnPromjeni.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnPromjeniActionPerformed(evt);
+            }
+        });
+
+        btnObrisi.setText("Obrisi");
+        btnObrisi.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnObrisiActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -61,16 +116,31 @@ public class PosudbeKnjiga extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel1)
-                    .addComponent(dpiDatumPosudbe, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel2)
-                    .addComponent(dpiDatumPovratka, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(173, Short.MAX_VALUE))
+                    .addComponent(lblPoruka, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel1)
+                            .addComponent(dpiDatumPosudbe, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel2)
+                            .addComponent(dpiDatumPovratka, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel3)
+                            .addComponent(cmbOsobe, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(btnDodaj)
+                                .addGap(14, 14, 14)
+                                .addComponent(btnPromjeni)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(btnObrisi)))
+                        .addGap(0, 152, Short.MAX_VALUE)))
+                .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addComponent(jLabel3)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(cmbOsobe, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
                 .addComponent(jLabel1)
                 .addGap(18, 18, 18)
                 .addComponent(dpiDatumPosudbe, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -78,7 +148,14 @@ public class PosudbeKnjiga extends javax.swing.JFrame {
                 .addComponent(jLabel2)
                 .addGap(18, 18, 18)
                 .addComponent(dpiDatumPovratka, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(123, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(lblPoruka, javax.swing.GroupLayout.DEFAULT_SIZE, 52, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnDodaj)
+                    .addComponent(btnObrisi)
+                    .addComponent(btnPromjeni))
+                .addGap(4, 4, 4))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -106,15 +183,97 @@ public class PosudbeKnjiga extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
+    private void lstPodaciValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_lstPodaciValueChanged
+        if (evt.getValueIsAdjusting()) {
+            return;
+        }
+        
+        entitet = lstPodaci.getSelectedValue();
+        if (entitet == null) {
+            return;
+        }
+        
+        DefaultComboBoxModel<Osoba> mo = (DefaultComboBoxModel<Osoba>) cmbOsobe.getModel();
+        for (int i = 0; i < mo.getSize(); i++) {
+            if (mo.getElementAt(i).getId().equals(entitet.getOsoba().getId())) {
+                cmbOsobe.setSelectedIndex(i);
+                break;
+            }
+        }
+        
+        dpiDatumPosudbe.setDate(entitet.getDatum_posudbe().toInstant()
+                .atZone(ZoneId.systemDefault())
+                .toLocalDate());
+        
+        dpiDatumPovratka.setDate(entitet.getDatum_povratka().toInstant()
+                .atZone(ZoneId.systemDefault())
+                .toLocalDate());
+    }//GEN-LAST:event_lstPodaciValueChanged
+
+    private void btnDodajActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDodajActionPerformed
+        entitet = new PosudbaKnjige();
+
+        postaviVrijednostiUEntitet();
+
+        obrada.setEntitet(entitet);
+        try {
+            obrada.create();
+            ucitajPodatke();
+            ocistiPolja();
+        } catch (ZavrsniRadException ex) {
+            lblPoruka.setText(ex.getPoruka());
+        }
+    }//GEN-LAST:event_btnDodajActionPerformed
+
+    private void btnPromjeniActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPromjeniActionPerformed
+        entitet = lstPodaci.getSelectedValue();
+        if(entitet==null){
+            return;
+        }
+
+        postaviVrijednostiUEntitet();
+
+        try {
+            obrada.update();
+            ucitajPodatke();
+            ocistiPolja();
+        } catch (ZavrsniRadException e) {
+            lblPoruka.setText(e.getPoruka());
+        }
+    }//GEN-LAST:event_btnPromjeniActionPerformed
+
+    private void btnObrisiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnObrisiActionPerformed
+        entitet = lstPodaci.getSelectedValue();
+        if (entitet == null) {
+            return;
+        }
+
+        obrada.setEntitet(entitet);
+
+        try {
+            obrada.delete();
+            ucitajPodatke();
+            ocistiPolja();
+        } catch (ZavrsniRadException e) {
+            lblPoruka.setText(e.getPoruka());
+        }
+    }//GEN-LAST:event_btnObrisiActionPerformed
+
    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnDodaj;
+    private javax.swing.JButton btnObrisi;
+    private javax.swing.JButton btnPromjeni;
+    private javax.swing.JComboBox<Osoba> cmbOsobe;
     private com.github.lgooddatepicker.components.DatePicker dpiDatumPosudbe;
     private com.github.lgooddatepicker.components.DatePicker dpiDatumPovratka;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JLabel lblPoruka;
     private javax.swing.JList<PosudbaKnjige> lstPodaci;
     // End of variables declaration//GEN-END:variables
 
@@ -125,5 +284,24 @@ public class PosudbeKnjiga extends javax.swing.JFrame {
         obrada.getPodaci().forEach(s -> mpk.addElement(s));
 
         lstPodaci.setModel(mpk);
+    }
+
+    private void postaviVrijednostiUEntitet() {
+        entitet.setOsoba((Osoba) cmbOsobe.getSelectedItem());
+        
+        entitet.setDatum_posudbe(Date.from(dpiDatumPosudbe.getDate().atStartOfDay()
+                .atZone(ZoneId.systemDefault())
+                .toInstant()));
+        
+        entitet.setDatum_povratka(Date.from(dpiDatumPovratka.getDate().atStartOfDay()
+            .atZone(ZoneId.systemDefault())
+            .toInstant()));
+        
+        obrada.setEntitet(entitet);
+    }
+
+    private void ocistiPolja() {
+        
+        lblPoruka.setText("");
     }
 }
