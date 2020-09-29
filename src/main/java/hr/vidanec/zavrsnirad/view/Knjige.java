@@ -8,6 +8,7 @@ package hr.vidanec.zavrsnirad.view;
 import hr.vidanec.zavrsnirad.controller.ObradaKnjiga;
 import hr.vidanec.zavrsnirad.model.Knjiga;
 import hr.vidanec.zavrsnirad.utility.ZavrsniRadException;
+import java.awt.event.KeyEvent;
 import javax.swing.DefaultListModel;
 
 /**
@@ -24,6 +25,7 @@ public class Knjige extends javax.swing.JFrame {
     public Knjige() {
         initComponents();
         setTitle("Knjige");
+        btnTrazi.setText("\uD83D\uDD0E");
         obrada = new ObradaKnjiga();
         ucitajPodatke();
     }
@@ -50,6 +52,8 @@ public class Knjige extends javax.swing.JFrame {
         btnObrisi = new javax.swing.JButton();
         btnPromjeni = new javax.swing.JButton();
         lblPoruka = new javax.swing.JLabel();
+        txtUvjet = new javax.swing.JTextField();
+        btnTrazi = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -140,13 +144,31 @@ public class Knjige extends javax.swing.JFrame {
                     .addComponent(btnPromjeni)))
         );
 
+        txtUvjet.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtUvjetKeyReleased(evt);
+            }
+        });
+
+        btnTrazi.setText("T");
+        btnTrazi.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnTraziActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(20, 20, 20)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 212, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 212, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(txtUvjet)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(btnTrazi, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 33, Short.MAX_VALUE)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
@@ -155,9 +177,14 @@ public class Knjige extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jScrollPane1)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(txtUvjet, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnTrazi, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 265, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -230,12 +257,23 @@ public class Knjige extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnObrisiActionPerformed
 
+    private void txtUvjetKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtUvjetKeyReleased
+        if(evt.getKeyCode()==KeyEvent.VK_ENTER){
+            ucitajPodatke();
+        }
+    }//GEN-LAST:event_txtUvjetKeyReleased
+
+    private void btnTraziActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTraziActionPerformed
+        ucitajPodatke();
+    }//GEN-LAST:event_btnTraziActionPerformed
+
     
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnDodaj;
     private javax.swing.JButton btnObrisi;
     private javax.swing.JButton btnPromjeni;
+    private javax.swing.JButton btnTrazi;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -246,13 +284,14 @@ public class Knjige extends javax.swing.JFrame {
     private javax.swing.JTextField txtAutor;
     private javax.swing.JTextField txtGodina;
     private javax.swing.JTextField txtNaziv;
+    private javax.swing.JTextField txtUvjet;
     // End of variables declaration//GEN-END:variables
 
     private void ucitajPodatke() {
         DefaultListModel<Knjiga> m = new DefaultListModel<>();
 
         
-        obrada.getPodaci().forEach(s -> m.addElement(s));
+        obrada.getPodaci(txtUvjet.getText()).forEach(s -> m.addElement(s));
 
         lstPodaci.setModel(m);
     }

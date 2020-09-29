@@ -28,11 +28,19 @@ public class ObradaKnjiga extends Obrada<Knjiga>{
         return session.createQuery("from Knjiga").list();
     }
 
-    
+    public List<Knjiga> getPodaci(String uvjet) {
+        return session.createQuery("from Knjiga k "
+                + " where concat(k.naziv) "
+                + " like :uvjet ")
+                .setParameter("uvjet", "%"+uvjet+"%")
+                .setMaxResults(20)
+                .list();
+    }
     
     @Override
     protected void kontrolaCreate() throws ZavrsniRadException {
         kontrolaNaziva();
+        kontrolaKnjigaUBazi();
         kontrolaAutora();
         kontrolaGodine();
     }
@@ -40,6 +48,7 @@ public class ObradaKnjiga extends Obrada<Knjiga>{
     @Override
     protected void kontrolaUpdate() throws ZavrsniRadException {
         kontrolaNaziva();
+        kontrolaKnjigaUBazi();
         kontrolaAutora();
         kontrolaGodine();
     }
@@ -76,6 +85,19 @@ public class ObradaKnjiga extends Obrada<Knjiga>{
     protected  void kontrolaGodine() throws ZavrsniRadException{
         if(entitet.getGodina()==null || entitet.getGodina().trim().isEmpty()) {
             throw new ZavrsniRadException("Godina je obavezna");
+        }
+    }
+    
+    
+    private void kontrolaKnjigaUBazi() throws ZavrsniRadException {
+        List<Knjiga> lista = session.createQuery(""
+            + " from Knjiga k "
+            + " where k.naziv=:naziv "
+            )
+            .setParameter("naziv", entitet.getNaziv())
+            .list();
+        if(lista.size()>0){
+            throw new ZavrsniRadException("Knjiga vec postoji u bazi");
         }
     }
     

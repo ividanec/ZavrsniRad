@@ -6,11 +6,14 @@
 package hr.vidanec.zavrsnirad.view;
 
 import com.github.lgooddatepicker.components.DatePickerSettings;
+import hr.vidanec.zavrsnirad.controller.ObradaKnjiga;
 import hr.vidanec.zavrsnirad.controller.ObradaOsoba;
 import hr.vidanec.zavrsnirad.controller.ObradaPosudbaKnjige;
+import hr.vidanec.zavrsnirad.model.Knjiga;
 import hr.vidanec.zavrsnirad.model.Osoba;
 import hr.vidanec.zavrsnirad.model.PosudbaKnjige;
 import hr.vidanec.zavrsnirad.utility.ZavrsniRadException;
+import java.awt.event.KeyEvent;
 import java.time.ZoneId;
 import java.util.Date;
 import java.util.Locale;
@@ -24,6 +27,7 @@ import javax.swing.DefaultListModel;
 public class PosudbeKnjiga extends javax.swing.JFrame {
 
     private ObradaPosudbaKnjige obrada;
+    private ObradaKnjiga obradaKnjiga;
     private PosudbaKnjige entitet;
     /**
      * Creates new form PosudbeKnjiga
@@ -32,6 +36,7 @@ public class PosudbeKnjiga extends javax.swing.JFrame {
         initComponents();
         setTitle("Posudbe knjiga");
         obrada = new ObradaPosudbaKnjige();
+        obradaKnjiga = new ObradaKnjiga();
         ucitajPodatke();
         
         DefaultComboBoxModel<Osoba> mo = new DefaultComboBoxModel<>();
@@ -46,6 +51,8 @@ public class PosudbeKnjiga extends javax.swing.JFrame {
         DatePickerSettings dps2 = new DatePickerSettings(new Locale("hr", "HR"));
         dps2.setFormatForDatesCommonEra("dd.MM.yyyy");
         dpiDatumPovratka.setSettings(dps2);
+        
+        ucitajKnjige();
     }
 
     /**
@@ -65,11 +72,16 @@ public class PosudbeKnjiga extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         dpiDatumPovratka = new com.github.lgooddatepicker.components.DatePicker();
         jLabel3 = new javax.swing.JLabel();
-        cmbOsobe = new javax.swing.JComboBox<>();
         btnDodaj = new javax.swing.JButton();
         btnPromjeni = new javax.swing.JButton();
         btnObrisi = new javax.swing.JButton();
         lblPoruka = new javax.swing.JLabel();
+        cmbOsobe = new javax.swing.JComboBox<>();
+        jPanel2 = new javax.swing.JPanel();
+        txtUvjet = new javax.swing.JTextField();
+        btnTrazi = new javax.swing.JButton();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        lstKnjigeUBazi = new javax.swing.JList<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -120,27 +132,27 @@ public class PosudbeKnjiga extends javax.swing.JFrame {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel1)
-                            .addComponent(dpiDatumPosudbe, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel2)
                             .addComponent(dpiDatumPovratka, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel3)
-                            .addComponent(cmbOsobe, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(btnDodaj)
                                 .addGap(14, 14, 14)
                                 .addComponent(btnPromjeni)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(btnObrisi)))
-                        .addGap(0, 152, Short.MAX_VALUE)))
+                                .addComponent(btnObrisi))
+                            .addComponent(dpiDatumPosudbe, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(cmbOsobe, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(0, 10, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addComponent(jLabel3)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(cmbOsobe, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
+                .addComponent(cmbOsobe, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(33, 33, 33)
                 .addComponent(jLabel1)
                 .addGap(18, 18, 18)
                 .addComponent(dpiDatumPosudbe, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -148,8 +160,8 @@ public class PosudbeKnjiga extends javax.swing.JFrame {
                 .addComponent(jLabel2)
                 .addGap(18, 18, 18)
                 .addComponent(dpiDatumPovratka, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(lblPoruka, javax.swing.GroupLayout.DEFAULT_SIZE, 52, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
+                .addComponent(lblPoruka, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnDodaj)
@@ -158,24 +170,71 @@ public class PosudbeKnjiga extends javax.swing.JFrame {
                 .addGap(4, 4, 4))
         );
 
+        jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder("Knjige"));
+
+        txtUvjet.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtUvjetKeyReleased(evt);
+            }
+        });
+
+        btnTrazi.setText("T");
+        btnTrazi.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnTraziActionPerformed(evt);
+            }
+        });
+
+        jScrollPane2.setViewportView(lstKnjigeUBazi);
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(txtUvjet, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(btnTrazi, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(0, 209, Short.MAX_VALUE))
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(txtUvjet, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnTrazi, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane2))
+        );
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 189, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(19, 19, 19)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jScrollPane1))
+            .addGroup(layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jScrollPane1)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(19, 19, 19)
+                        .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addContainerGap())
         );
 
@@ -259,12 +318,23 @@ public class PosudbeKnjiga extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnObrisiActionPerformed
 
+    private void txtUvjetKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtUvjetKeyReleased
+        if(evt.getKeyCode()==KeyEvent.VK_ENTER){
+            ucitajKnjige();
+        }
+    }//GEN-LAST:event_txtUvjetKeyReleased
+
+    private void btnTraziActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTraziActionPerformed
+        ucitajKnjige();
+    }//GEN-LAST:event_btnTraziActionPerformed
+
    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnDodaj;
     private javax.swing.JButton btnObrisi;
     private javax.swing.JButton btnPromjeni;
+    private javax.swing.JButton btnTrazi;
     private javax.swing.JComboBox<Osoba> cmbOsobe;
     private com.github.lgooddatepicker.components.DatePicker dpiDatumPosudbe;
     private com.github.lgooddatepicker.components.DatePicker dpiDatumPovratka;
@@ -272,9 +342,13 @@ public class PosudbeKnjiga extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JLabel lblPoruka;
+    private javax.swing.JList<Knjiga> lstKnjigeUBazi;
     private javax.swing.JList<PosudbaKnjige> lstPodaci;
+    private javax.swing.JTextField txtUvjet;
     // End of variables declaration//GEN-END:variables
 
     private void ucitajPodatke() {
@@ -304,4 +378,14 @@ public class PosudbeKnjiga extends javax.swing.JFrame {
         
         lblPoruka.setText("");
     }
+
+    private void ucitajKnjige() {
+        DefaultListModel<Knjiga> mk = new DefaultListModel<>();
+        
+        obradaKnjiga.getPodaci(txtUvjet.getText()).forEach(s -> mk.addElement(s));
+        
+        lstKnjigeUBazi.setModel(mk);
+    }
+
+    
 }
