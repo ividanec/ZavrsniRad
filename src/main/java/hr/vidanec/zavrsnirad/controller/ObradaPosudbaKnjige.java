@@ -15,13 +15,6 @@ import java.util.List;
  */
 public class ObradaPosudbaKnjige extends Obrada<PosudbaKnjige>{
 
-    public ObradaPosudbaKnjige(PosudbaKnjige posudbaKnjige) {
-        super(posudbaKnjige);
-    }
-
-    public ObradaPosudbaKnjige() {
-        super();
-    }
 
     
     @Override

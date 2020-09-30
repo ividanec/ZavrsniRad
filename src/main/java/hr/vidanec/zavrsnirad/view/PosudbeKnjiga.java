@@ -15,6 +15,7 @@ import hr.vidanec.zavrsnirad.model.PosudbaKnjige;
 import hr.vidanec.zavrsnirad.utility.ZavrsniRadException;
 import java.awt.event.KeyEvent;
 import java.time.ZoneId;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
 import javax.swing.DefaultComboBoxModel;
@@ -52,7 +53,9 @@ public class PosudbeKnjiga extends javax.swing.JFrame {
         dps2.setFormatForDatesCommonEra("dd.MM.yyyy");
         dpiDatumPovratka.setSettings(dps2);
         
-        ucitajKnjige();
+        lstKnjigeNaPosudbi.setCellRenderer(new KnjigaCellRenderer());
+        lstKnjigeUBazi.setCellRenderer(new KnjigaCellRenderer());
+        
     }
 
     /**
@@ -82,9 +85,16 @@ public class PosudbeKnjiga extends javax.swing.JFrame {
         btnTrazi = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
         lstKnjigeUBazi = new javax.swing.JList<>();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        lstKnjigeNaPosudbi = new javax.swing.JList<>();
+        btnObrisiKnjiguIzPosudbe = new javax.swing.JButton();
+        jLabel4 = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
+        btnDodajKnjiguUPosudbu = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
+        lstPodaci.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         lstPodaci.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
             public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
                 lstPodaciValueChanged(evt);
@@ -141,8 +151,8 @@ public class PosudbeKnjiga extends javax.swing.JFrame {
                                 .addComponent(btnPromjeni)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(btnObrisi))
-                            .addComponent(dpiDatumPosudbe, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(cmbOsobe, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(cmbOsobe, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(dpiDatumPosudbe, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(0, 10, Short.MAX_VALUE)))
                 .addContainerGap())
         );
@@ -154,14 +164,14 @@ public class PosudbeKnjiga extends javax.swing.JFrame {
                 .addComponent(cmbOsobe, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(33, 33, 33)
                 .addComponent(jLabel1)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(dpiDatumPosudbe, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addGap(21, 21, 21)
                 .addComponent(jLabel2)
                 .addGap(18, 18, 18)
                 .addComponent(dpiDatumPovratka, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(lblPoruka, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(lblPoruka, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnDodaj)
@@ -185,7 +195,32 @@ public class PosudbeKnjiga extends javax.swing.JFrame {
             }
         });
 
+        lstKnjigeUBazi.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
+            public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
+                lstKnjigeUBaziValueChanged(evt);
+            }
+        });
         jScrollPane2.setViewportView(lstKnjigeUBazi);
+
+        lstKnjigeNaPosudbi.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
+            public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
+                lstKnjigeNaPosudbiValueChanged(evt);
+            }
+        });
+        jScrollPane3.setViewportView(lstKnjigeNaPosudbi);
+
+        btnObrisiKnjiguIzPosudbe.setText("<<");
+
+        jLabel4.setText("Knjige u bazi");
+
+        jLabel5.setText("Knjige na posudbi");
+
+        btnDodajKnjiguUPosudbu.setText(">>");
+        btnDodajKnjiguUPosudbu.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDodajKnjiguUPosudbuActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -194,20 +229,48 @@ public class PosudbeKnjiga extends javax.swing.JFrame {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(txtUvjet, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(btnTrazi, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(0, 209, Short.MAX_VALUE))
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addComponent(txtUvjet, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(btnTrazi, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jLabel4))
+                        .addGap(0, 125, Short.MAX_VALUE))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                        .addGap(11, 11, 11)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(btnDodajKnjiguUPosudbu, javax.swing.GroupLayout.DEFAULT_SIZE, 56, Short.MAX_VALUE)
+                            .addComponent(btnObrisiKnjiguIzPosudbe, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 221, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel5)))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addComponent(txtUvjet, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnTrazi, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane2))
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnDodajKnjiguUPosudbu)
+                        .addGap(75, 75, 75)
+                        .addComponent(btnObrisiKnjiguIzPosudbe)
+                        .addGap(61, 61, 61))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                        .addComponent(jLabel5)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jScrollPane3))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jLabel4)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(txtUvjet, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnTrazi, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jScrollPane2)))
+                .addContainerGap())
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -259,14 +322,22 @@ public class PosudbeKnjiga extends javax.swing.JFrame {
                 break;
             }
         }
-        
+        if(entitet.getDatum_posudbe()!=null){
         dpiDatumPosudbe.setDate(entitet.getDatum_posudbe().toInstant()
                 .atZone(ZoneId.systemDefault())
                 .toLocalDate());
-        
+        }
+        if(entitet.getDatum_povratka()!=null){
         dpiDatumPovratka.setDate(entitet.getDatum_povratka().toInstant()
                 .atZone(ZoneId.systemDefault())
                 .toLocalDate());
+        }
+        
+        DefaultListModel<Knjiga> m = new DefaultListModel<>();
+        for(Knjiga k : entitet.getKnjige()){
+            m.addElement(k);
+        }
+        lstKnjigeNaPosudbi.setModel(m);
     }//GEN-LAST:event_lstPodaciValueChanged
 
     private void btnDodajActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDodajActionPerformed
@@ -328,11 +399,47 @@ public class PosudbeKnjiga extends javax.swing.JFrame {
         ucitajKnjige();
     }//GEN-LAST:event_btnTraziActionPerformed
 
+    private void btnDodajKnjiguUPosudbuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDodajKnjiguUPosudbuActionPerformed
+        DefaultListModel<Knjiga> m;
+        try {
+            m= (DefaultListModel<Knjiga>) lstKnjigeNaPosudbi.getModel();
+            m.get(0).toString();
+        } catch (Exception e) {
+            m=new DefaultListModel<>();
+            lstKnjigeNaPosudbi.setModel(m);
+        }
+        boolean postoji;
+        for(Knjiga k : lstKnjigeUBazi.getSelectedValuesList()){
+            postoji=false;
+            for(int i=0;i<m.size();i++){
+                if(k.getId().equals(m.get(i).getId())){
+                    postoji=true;
+                    break;
+                }
+            }
+            if(!postoji){
+                 m.addElement(k);
+            }
+          
+       }
+        lstKnjigeNaPosudbi.repaint();
+    }//GEN-LAST:event_btnDodajKnjiguUPosudbuActionPerformed
+
+    private void lstKnjigeUBaziValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_lstKnjigeUBaziValueChanged
+        
+    }//GEN-LAST:event_lstKnjigeUBaziValueChanged
+
+    private void lstKnjigeNaPosudbiValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_lstKnjigeNaPosudbiValueChanged
+        // TODO add your handling code here:
+    }//GEN-LAST:event_lstKnjigeNaPosudbiValueChanged
+
    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnDodaj;
+    private javax.swing.JButton btnDodajKnjiguUPosudbu;
     private javax.swing.JButton btnObrisi;
+    private javax.swing.JButton btnObrisiKnjiguIzPosudbe;
     private javax.swing.JButton btnPromjeni;
     private javax.swing.JButton btnTrazi;
     private javax.swing.JComboBox<Osoba> cmbOsobe;
@@ -341,36 +448,49 @@ public class PosudbeKnjiga extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JLabel lblPoruka;
+    private javax.swing.JList<Knjiga> lstKnjigeNaPosudbi;
     private javax.swing.JList<Knjiga> lstKnjigeUBazi;
     private javax.swing.JList<PosudbaKnjige> lstPodaci;
     private javax.swing.JTextField txtUvjet;
     // End of variables declaration//GEN-END:variables
 
     private void ucitajPodatke() {
-        DefaultListModel<PosudbaKnjige> mpk = new DefaultListModel<>();
+        DefaultListModel<PosudbaKnjige> m = new DefaultListModel<>();
 
         
-        obrada.getPodaci().forEach(s -> mpk.addElement(s));
+        obrada.getPodaci().forEach(s -> m.addElement(s));
 
-        lstPodaci.setModel(mpk);
+        lstPodaci.setModel(m);
     }
 
     private void postaviVrijednostiUEntitet() {
         entitet.setOsoba((Osoba) cmbOsobe.getSelectedItem());
         
+        if(dpiDatumPosudbe.getDate()!=null){
         entitet.setDatum_posudbe(Date.from(dpiDatumPosudbe.getDate().atStartOfDay()
                 .atZone(ZoneId.systemDefault())
                 .toInstant()));
-        
+        }
+        if(dpiDatumPovratka.getDate()!=null){
         entitet.setDatum_povratka(Date.from(dpiDatumPovratka.getDate().atStartOfDay()
             .atZone(ZoneId.systemDefault())
             .toInstant()));
+        }
         
+         
+        entitet.setKnjige(new ArrayList<>());
+        DefaultListModel<Knjiga> m = (DefaultListModel<Knjiga>) lstKnjigeNaPosudbi.getModel();
+        for(int i=0;i<m.size();i++) {
+            entitet.getKnjige().add(m.getElementAt(i));
+        }
         obrada.setEntitet(entitet);
     }
 
@@ -380,11 +500,11 @@ public class PosudbeKnjiga extends javax.swing.JFrame {
     }
 
     private void ucitajKnjige() {
-        DefaultListModel<Knjiga> mk = new DefaultListModel<>();
+        DefaultListModel<Knjiga> m = new DefaultListModel<>();
         
-        obradaKnjiga.getPodaci(txtUvjet.getText()).forEach(s -> mk.addElement(s));
+        obradaKnjiga.getPodaci(txtUvjet.getText()).forEach(s -> m.addElement(s));
         
-        lstKnjigeUBazi.setModel(mk);
+        lstKnjigeUBazi.setModel(m);
     }
 
     

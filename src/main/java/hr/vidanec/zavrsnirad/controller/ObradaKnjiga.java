@@ -15,13 +15,6 @@ import java.util.List;
  */
 public class ObradaKnjiga extends Obrada<Knjiga>{
 
-    public ObradaKnjiga(Knjiga knjiga) {
-        super(knjiga);
-    }
-
-    public ObradaKnjiga() {
-        super();
-    }
     
     @Override
     public List<Knjiga> getPodaci() {
@@ -40,7 +33,7 @@ public class ObradaKnjiga extends Obrada<Knjiga>{
     @Override
     protected void kontrolaCreate() throws ZavrsniRadException {
         kontrolaNaziva();
-        kontrolaKnjigaUBazi();
+//        kontrolaKnjigaUBazi();
         kontrolaAutora();
         kontrolaGodine();
     }
@@ -48,14 +41,13 @@ public class ObradaKnjiga extends Obrada<Knjiga>{
     @Override
     protected void kontrolaUpdate() throws ZavrsniRadException {
         kontrolaNaziva();
-        kontrolaKnjigaUBazi();
         kontrolaAutora();
         kontrolaGodine();
     }
 
     @Override
     protected void kontrolaDelete() throws ZavrsniRadException {
-        if(entitet.getPosudbaKnjige().size()>0){
+        if(entitet.getPosudbeKnjiga().size()>0){
             throw new ZavrsniRadException("Knjiga se ne moze obrisati, ima jednu ili vise posudbi");
         }
     }

@@ -28,20 +28,20 @@ public class PocetniInsert {
         
         Session session = HibernateUtil.getSessionFactory().openSession();
         
-//        Operater operater = new Operater();
-//        operater.setIme("Ivan");
-//        operater.setPrezime("Vidanec");
-//        operater.setEmail("ivid@gmail.com");
-//        operater.setOib("25983140218");
-//        operater.setLozinka(BCrypt.hashpw("i", BCrypt.gensalt()));
-//        
-//        ObradaOperater oo = new ObradaOperater();
-//        oo.setEntitet(operater);
-//        try {
-//            oo.create();
-//        } catch (ZavrsniRadException e) {
-//            e.printStackTrace();
-//        }
+        Operater operater = new Operater();
+        operater.setIme("Ivan");
+        operater.setPrezime("Vidanec");
+        operater.setEmail("ivid@gmail.com");
+        operater.setOib("25983140218");
+        operater.setLozinka(BCrypt.hashpw("i", BCrypt.gensalt()));
+        
+        ObradaOperater oo = new ObradaOperater();
+        oo.setEntitet(operater);
+        try {
+            oo.create();
+        } catch (ZavrsniRadException e) {
+            e.printStackTrace();
+        }
         
         session.beginTransaction();
         Faker faker = new Faker();
@@ -75,18 +75,18 @@ public class PocetniInsert {
         }
         session.getTransaction().commit();
         
-        session.beginTransaction();
-        
-        PosudbaKnjige pk = new PosudbaKnjige();
-        pk.setDatum_posudbe(new Date());
-        pk.setDatum_povratka(new Date());
-        pk.setKnjige(knjige);
-        pk.setOsoba(o);
-       
-        session.save(pk);
-        
-        session.getTransaction().commit();
-        
+//        session.beginTransaction();
+//        
+//        PosudbaKnjige pk = new PosudbaKnjige();
+//        pk.setDatum_posudbe(new Date());
+//        pk.setDatum_povratka(new Date());
+//        pk.setKnjige(knjige);
+//        pk.setOsoba(o);
+//       
+//        session.save(pk);
+//        
+//        session.getTransaction().commit();
+//        
       
     }
     

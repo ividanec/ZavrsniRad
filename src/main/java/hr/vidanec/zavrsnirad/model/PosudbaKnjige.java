@@ -33,7 +33,7 @@ public class PosudbaKnjige extends Entitet{
     @JoinColumn(name="osoba")
     private Osoba osoba;
     
-    @ManyToMany(cascade=CascadeType.ALL)
+    @ManyToMany
     @JoinTable(name="posudba",joinColumns=@JoinColumn(name="posudbaKnjige"),inverseJoinColumns=@JoinColumn(name="knjiga") )
     private List<Knjiga> knjige = new ArrayList<>();
 

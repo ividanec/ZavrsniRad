@@ -21,15 +21,17 @@ public class Knjiga extends Entitet{
     private String godina;
     
     @ManyToMany(mappedBy = "knjige")
-    private List<PosudbaKnjige> posudbaKnjige = new ArrayList<>();
+    private List<PosudbaKnjige> posudbeKnjiga = new ArrayList<>();
 
-    public List<PosudbaKnjige> getPosudbaKnjige() {
-        return posudbaKnjige;
+    public List<PosudbaKnjige> getPosudbeKnjiga() {
+        return posudbeKnjiga;
     }
 
-    public void setPosudbaKnjige(List<PosudbaKnjige> posudbaKnjige) {
-        this.posudbaKnjige = posudbaKnjige;
+    public void setPosudbeKnjiga(List<PosudbaKnjige> posudbeKnjiga) {
+        this.posudbeKnjiga = posudbeKnjiga;
     }
+
+    
     
     
 
