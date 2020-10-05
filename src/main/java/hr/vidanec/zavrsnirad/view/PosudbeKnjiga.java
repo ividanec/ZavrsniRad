@@ -210,6 +210,11 @@ public class PosudbeKnjiga extends javax.swing.JFrame {
         jScrollPane3.setViewportView(lstKnjigeNaPosudbi);
 
         btnObrisiKnjiguIzPosudbe.setText("<<");
+        btnObrisiKnjiguIzPosudbe.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnObrisiKnjiguIzPosudbeActionPerformed(evt);
+            }
+        });
 
         jLabel4.setText("Knjige u bazi");
 
@@ -327,6 +332,9 @@ public class PosudbeKnjiga extends javax.swing.JFrame {
                 .atZone(ZoneId.systemDefault())
                 .toLocalDate());
         }
+        if(entitet.getDatum_povratka()==null) {
+            dpiDatumPovratka.setText("");
+        }
         if(entitet.getDatum_povratka()!=null){
         dpiDatumPovratka.setDate(entitet.getDatum_povratka().toInstant()
                 .atZone(ZoneId.systemDefault())
@@ -342,10 +350,11 @@ public class PosudbeKnjiga extends javax.swing.JFrame {
 
     private void btnDodajActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDodajActionPerformed
         entitet = new PosudbaKnjige();
-
+        
         postaviVrijednostiUEntitet();
 
-        obrada.setEntitet(entitet);
+        
+        
         try {
             obrada.create();
             ucitajPodatke();
@@ -433,6 +442,26 @@ public class PosudbeKnjiga extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_lstKnjigeNaPosudbiValueChanged
 
+    private void btnObrisiKnjiguIzPosudbeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnObrisiKnjiguIzPosudbeActionPerformed
+        DefaultListModel<Knjiga> m;
+        
+        try {
+            m = (DefaultListModel<Knjiga>) lstKnjigeNaPosudbi.getModel();
+        } catch (Exception e) {
+            return;
+        }
+        
+        for(Knjiga k : lstKnjigeNaPosudbi.getSelectedValuesList()) {
+            for (int i = 0; i < m.size(); i++) {
+                if (k.getId().equals(m.getElementAt(i).getId())) {
+                    m.removeElementAt(i);
+                    break;
+                }
+            }
+        }
+        lstKnjigeNaPosudbi.repaint();
+    }//GEN-LAST:event_btnObrisiKnjiguIzPosudbeActionPerformed
+
    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -479,6 +508,8 @@ public class PosudbeKnjiga extends javax.swing.JFrame {
                 .atZone(ZoneId.systemDefault())
                 .toInstant()));
         }
+        
+        
         if(dpiDatumPovratka.getDate()!=null){
         entitet.setDatum_povratka(Date.from(dpiDatumPovratka.getDate().atStartOfDay()
             .atZone(ZoneId.systemDefault())
@@ -486,17 +517,24 @@ public class PosudbeKnjiga extends javax.swing.JFrame {
         }
         
          
-        entitet.setKnjige(new ArrayList<>());
+         try {
+            entitet.setKnjige(new ArrayList<>());
         DefaultListModel<Knjiga> m = (DefaultListModel<Knjiga>) lstKnjigeNaPosudbi.getModel();
         for(int i=0;i<m.size();i++) {
             entitet.getKnjige().add(m.getElementAt(i));
         }
+        } catch (Exception e) {
+            
+        }
+        
         obrada.setEntitet(entitet);
     }
 
     private void ocistiPolja() {
         
         lblPoruka.setText("");
+        dpiDatumPovratka.setText("");
+        
     }
 
     private void ucitajKnjige() {

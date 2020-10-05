@@ -52,6 +52,7 @@ public class ObradaOsoba extends Obrada<Osoba>{
         kontrolaIme();
         kontrolaPrezime();
         kontrolaOib();
+        kontrolaOibBazaPromjeni();
         kontrolaBrojaTelefona();
     }
 
@@ -132,5 +133,20 @@ public class ObradaOsoba extends Obrada<Osoba>{
             throw new ZavrsniRadException("Oib je vec dodijeljen osobi " + lista.get(0).getImePrezime());
         }
     }
+
+    private void kontrolaOibBazaPromjeni() throws ZavrsniRadException {
+         List<Osoba> lista = session.createQuery(""
+            + " from Osoba o "
+            + " where o.oib=:oib and o.id!=:id"
+            )
+            .setParameter("oib", entitet.getOib())
+            .setParameter("id", entitet.getId())
+            .list();
+        if(lista.size()>0){
+            throw new ZavrsniRadException("Oib je vec dodijeljen osobi " + lista.get(0).getImePrezime());
+        }
+    }
+    
+    
     
 }

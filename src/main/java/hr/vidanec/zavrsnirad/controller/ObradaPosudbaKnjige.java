@@ -26,6 +26,8 @@ public class ObradaPosudbaKnjige extends Obrada<PosudbaKnjige>{
     @Override
     protected void kontrolaCreate() throws ZavrsniRadException {
      kontrolaDatumaPosudbe();
+     kontrolaOsoba();
+     kontrolaKnjige();
     }
 
     @Override
@@ -36,7 +38,7 @@ public class ObradaPosudbaKnjige extends Obrada<PosudbaKnjige>{
     @Override
     protected void kontrolaDelete() throws ZavrsniRadException {
         if(entitet.getKnjige().size()>0){
-            throw new ZavrsniRadException("Posudba knjige se ne moze obrisati,osoba ima jednu ili vise posudbi knjiga");
+            throw new ZavrsniRadException("Osoba ima jednu ili vise posudbi knjiga");
         }
     }
     
@@ -49,6 +51,16 @@ public class ObradaPosudbaKnjige extends Obrada<PosudbaKnjige>{
     
     protected void kontrolaDatumaPovratka() throws ZavrsniRadException {
         
+    }
+
+    private void kontrolaOsoba() throws ZavrsniRadException {
+        
+    }
+
+    private void kontrolaKnjige() throws ZavrsniRadException {
+      if(entitet.getKnjige().isEmpty()) {
+          throw new ZavrsniRadException("Minimalno jedna knjiga na posudbi");
+      }
     }
     
 }
