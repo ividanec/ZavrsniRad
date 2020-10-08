@@ -26,6 +26,7 @@ public class Autorizacija extends javax.swing.JFrame {
         
         txtEmail.requestFocus();
         txtEmail.setText("ivid@gmail.com");
+        pswLozinka.setText("i");
     }
 
     /**
