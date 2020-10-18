@@ -35,6 +35,7 @@ public class PosudbeKnjiga extends javax.swing.JFrame {
      */
     public PosudbeKnjiga() {
         initComponents();
+        btnTrazi.setText("\uD83D\uDD0E");
         setTitle("Posudbe knjiga");
         obrada = new ObradaPosudbaKnjige();
         obradaKnjiga = new ObradaKnjiga();

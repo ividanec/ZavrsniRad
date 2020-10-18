@@ -33,7 +33,7 @@ public class ObradaKnjiga extends Obrada<Knjiga>{
     @Override
     protected void kontrolaCreate() throws ZavrsniRadException {
         kontrolaNaziva();
-//        kontrolaKnjigaUBazi();
+        kontrolaKnjigaUBazi();
         kontrolaAutora();
         kontrolaGodine();
     }
@@ -41,6 +41,7 @@ public class ObradaKnjiga extends Obrada<Knjiga>{
     @Override
     protected void kontrolaUpdate() throws ZavrsniRadException {
         kontrolaNaziva();
+        kontrolaKnjigaUBazi();
         kontrolaAutora();
         kontrolaGodine();
     }
